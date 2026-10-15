@@ -12,7 +12,12 @@ export async function POST(request: Request) {
     if (file.size > MAX_FILE_SIZE) return NextResponse.json({ error: 'Images must be 10 MB or smaller.' }, { status: 413 })
 
     const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '-').toLowerCase()
-    const blob = await put(`uploads/${Date.now()}-${safeName}`, file, { access: 'public', addRandomSuffix: false })
+    const blob = await put(`uploads/${Date.now()}-${safeName}`, file, {
+      access: 'public',
+      addRandomSuffix: false,
+      storeId: process.env.BLOB_STORE_ID,
+      oidcToken: process.env.VERCEL_OIDC_TOKEN,
+    })
     return NextResponse.json({ url: blob.url, pathname: blob.pathname })
   } catch (error) {
     console.error('[v0] Image upload failed:', error)
