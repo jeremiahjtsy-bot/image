@@ -5,8 +5,6 @@ export async function GET() {
   try {
     const { blobs } = await list({
       prefix: 'uploads/',
-      storeId: process.env.BLOB_STORE_ID,
-      oidcToken: process.env.VERCEL_OIDC_TOKEN,
     })
 
     return NextResponse.json({

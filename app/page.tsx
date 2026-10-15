@@ -6,8 +6,6 @@ export const dynamic = 'force-dynamic'
 export default async function Home() {
   const { blobs } = await list({
     prefix: 'uploads/',
-    storeId: process.env.BLOB_STORE_ID,
-    oidcToken: process.env.VERCEL_OIDC_TOKEN,
   })
   const initialImages = blobs
     .sort((a, b) => b.uploadedAt.getTime() - a.uploadedAt.getTime())
